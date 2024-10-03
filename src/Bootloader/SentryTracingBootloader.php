@@ -5,6 +5,8 @@ namespace Cardyo\SpiralSentryTracing\Bootloader;
 use Cardyo\SpiralSentryTracing\BacktraceHelper;
 use Cardyo\SpiralSentryTracing\Cqrs\TracingCommandBusDecorator;
 use Cardyo\SpiralSentryTracing\Goridge\TracingRPCDecorator;
+use Cardyo\SpiralSentryTracing\Integration\CommandIntegration;
+use Cardyo\SpiralSentryTracing\Integration\RoutingIntegration;
 use Cardyo\SpiralSentryTracing\ProxiedRequestFetcher;
 use Sentry\Integration\RequestFetcherInterface;
 use Sentry\Serializer\RepresentationSerializer;
@@ -14,8 +16,8 @@ use Spiral\Core\Container;
 use Spiral\Cqrs\CommandBusInterface;
 use Spiral\Cqrs\QueryBusInterface;
 use Spiral\Goridge\RPC\RPCInterface;
-use Spiral\Sentry\Bootloader\ClientBootloader;
 use Spiral\League\Event\Bootloader\EventBootloader;
+use Spiral\Sentry\Bootloader\ClientBootloader;
 
 class SentryTracingBootloader extends Bootloader
 {
@@ -38,6 +40,9 @@ class SentryTracingBootloader extends Bootloader
             RepresentationSerializerInterface::class => RepresentationSerializer::class,
             BacktraceHelper::class => BacktraceHelper::class,
             RequestFetcherInterface::class => ProxiedRequestFetcher::class,
+
+            RoutingIntegration::class => RoutingIntegration::class,
+            CommandIntegration::class => CommandIntegration::class,
         ];
 
         return $singletons;

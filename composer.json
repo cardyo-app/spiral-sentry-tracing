@@ -20,7 +20,8 @@
         "vimeo/psalm": "^0.3.14",
         "spiral-packages/cqrs": "^2.3",
         "spiral-packages/league-event": "^1.0",
-        "spiral/goridge": "^4.2"
+        "spiral/goridge": "^4.2",
+        "spiral/router": "^3.14"
     },
     "autoload": {
         "psr-4": {
