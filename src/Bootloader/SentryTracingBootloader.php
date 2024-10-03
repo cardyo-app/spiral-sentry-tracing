@@ -4,6 +4,7 @@ namespace Cardyo\SpiralSentryTracing\Bootloader;
 
 use Cardyo\SpiralSentryTracing\BacktraceHelper;
 use Cardyo\SpiralSentryTracing\Cqrs\TracingCommandBusDecorator;
+use Cardyo\SpiralSentryTracing\Cqrs\TracingQueryBusDecorator;
 use Cardyo\SpiralSentryTracing\Goridge\TracingRPCDecorator;
 use Cardyo\SpiralSentryTracing\Integration\CommandIntegration;
 use Cardyo\SpiralSentryTracing\Integration\RoutingIntegration;
@@ -60,7 +61,7 @@ class SentryTracingBootloader extends Bootloader
         if (interface_exists(QueryBusInterface::class) && $container->has(QueryBusInterface::class)) {
             $container->bindSingleton(
                 QueryBusInterface::class,
-                new TracingCommandBusDecorator($container->get(QueryBusInterface::class)),
+                new TracingQueryBusDecorator($container->get(QueryBusInterface::class)),
             );
         }
 
