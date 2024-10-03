@@ -1,0 +1,7 @@
+.idea/
+.env
+composer.lock
+/runtime/
+/vendor/
+*.db
+clover.xml
