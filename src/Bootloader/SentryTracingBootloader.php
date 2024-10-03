@@ -45,21 +45,21 @@ class SentryTracingBootloader extends Bootloader
 
     public function init(Container $container): void
     {
-        if (class_exists(CommandBusInterface::class) && $container->has(CommandBusInterface::class)) {
+        if (interface_exists(CommandBusInterface::class) && $container->has(CommandBusInterface::class)) {
             $container->bindSingleton(
                 CommandBusInterface::class,
                 new TracingCommandBusDecorator($container->get(CommandBusInterface::class)),
             );
         }
 
-        if (class_exists(QueryBusInterface::class) && $container->has(QueryBusInterface::class)) {
+        if (interface_exists(QueryBusInterface::class) && $container->has(QueryBusInterface::class)) {
             $container->bindSingleton(
                 QueryBusInterface::class,
                 new TracingCommandBusDecorator($container->get(QueryBusInterface::class)),
             );
         }
 
-        if (class_exists(RPCInterface::class) && $container->has(RPCInterface::class)) {
+        if (interface_exists(RPCInterface::class) && $container->has(RPCInterface::class)) {
             $container->bindSingleton(
                 RPCInterface::class,
                 new TracingRPCDecorator($container->get(RPCInterface::class)),
