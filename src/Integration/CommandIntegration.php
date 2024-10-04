@@ -5,6 +5,7 @@ namespace Cardyo\SpiralSentryTracing\Integration;
 use Sentry\Integration\IntegrationInterface;
 use Sentry\SentrySdk;
 use Sentry\Tracing\SpanContext;
+use Sentry\Tracing\SpanStatus;
 use Sentry\Tracing\TransactionContext;
 use Sentry\Tracing\TransactionSource;
 use Spiral\Console\Command;
@@ -64,6 +65,7 @@ class CommandIntegration implements IntegrationInterface
             return;
         }
 
+        $span->setStatus($this->exitCodeToStatus($event->exitCode));
         $span->finish();
     }
 
@@ -75,5 +77,10 @@ class CommandIntegration implements IntegrationInterface
     public function isEnabled(): bool
     {
         return true;
+    }
+
+    public function exitCodeToStatus(int $exitCode): SpanStatus
+    {
+        return $exitCode === 0 ? SpanStatus::ok() : SpanStatus::internalError();
     }
 }

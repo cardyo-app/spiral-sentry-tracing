@@ -12,9 +12,11 @@ use Sentry\SentrySdk;
 use Sentry\State\HubInterface;
 use Sentry\Tracing\Span;
 use Sentry\Tracing\SpanContext;
+use Sentry\Tracing\SpanStatus;
 use Sentry\Tracing\Transaction;
 use Sentry\Tracing\TransactionSource;
 use Spiral\Core\ScopeInterface;
+use Throwable;
 use function Sentry\continueTrace;
 
 class Middleware implements MiddlewareInterface
@@ -41,6 +43,9 @@ class Middleware implements MiddlewareInterface
             $this->hydrateResponseData($response);
 
             return $response;
+        } catch (Throwable $e) {
+            $this->transaction?->setStatus(SpanStatus::internalError());
+            throw $e;
         } finally {
             if ($this->appSpan !== null) {
                 $this->appSpan->finish();
